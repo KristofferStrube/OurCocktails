@@ -1,3 +1,4 @@
+using OurCocktails.Apis;
 using OurCocktails.Components;
 using OurCocktails.Repositories;
 using OurCocktails.Shared.Repositories;
@@ -29,6 +30,8 @@ app.UseHttpsRedirection();
 
 app.UseStaticFiles();
 app.UseAntiforgery();
+
+app.MapDrinkApis();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
