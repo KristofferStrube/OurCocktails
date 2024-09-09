@@ -4,26 +4,29 @@
 @inject IStorage Storage
 @inject PersistentComponentState PersistentComponentState
 
-@if (drink is null)
-{
-    <text>...</text>
-}
-else
-{
-    <PageTitle>Our Cocktails - @drink.Name</PageTitle>
+<PageTitle>Our Cocktails - @IgnoredName</PageTitle>
 
-    <h2>
+<h2>
+    @if (drink is null)
+    {
+        <text>&nbsp;</text>
+    }
+    else
+    {
         @drink.Name
-    </h2>
-    <div class="content">
-        @if (drink.Images.FirstOrDefault() is { } firstImage)
-        {
-            <div>
-                <div class="img-container">
-                    <img src="@firstImage" />
-                </div>
-            </div>
-        }
+    }
+</h2>
+<div class="content">
+    <div>
+        <div class="img-container">
+            @if (drink?.Images.FirstOrDefault() is { } firstImage)
+            {
+                <img src="@firstImage" />
+            }
+        </div>
+    </div>
+    @if (drink is not null)
+    {
         <div class="description">
             <p>
                 @drink.Summary @drink.Description
@@ -78,8 +81,8 @@ else
                 }
             </div>
         </div>
-    </div>
-}
+    }
+</div>
 
 <br />
 
