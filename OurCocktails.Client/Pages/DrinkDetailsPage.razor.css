@@ -24,6 +24,7 @@ img {
 
 .description {
     padding-left: 10px;
+    flex: 1;
 }
 
 .ingredients-header {
