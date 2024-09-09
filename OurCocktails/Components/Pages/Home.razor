@@ -1,0 +1,47 @@
+﻿@page "/"
+@attribute [StreamRendering]
+@inject IStorage Storage
+
+<PageTitle>Our Cocktails</PageTitle>
+
+<p>
+    Welcome to Our Cocktails. Here we will list most popular and new cocktails.
+</p>
+
+<div class="drink-card-grid">
+    @foreach (Drink drink in drinks)
+    {
+        <DrinkCard Drink="drink" />
+    }
+    @foreach (Drink drink in drinks)
+    {
+        <DrinkCard Drink="drink" />
+    }
+    @foreach (Drink drink in drinks)
+    {
+        <DrinkCard Drink="drink" />
+    }
+    @foreach (Drink drink in drinks)
+    {
+        <DrinkCard Drink="drink" />
+    }
+    @foreach (Drink drink in drinks)
+    {
+        <DrinkCard Drink="drink" />
+    }
+    @foreach (Drink drink in drinks)
+    {
+        <DrinkCard Drink="drink" />
+    }
+</div>
+
+<br />
+
+@code {
+    private List<Drink> drinks = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        drinks = await Storage.GetDrinks();
+    }
+}

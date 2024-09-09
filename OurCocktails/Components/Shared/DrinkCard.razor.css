@@ -1,0 +1,29 @@
+﻿a {
+    text-decoration: none;
+}
+
+.outer {
+    border: 1px solid #cf4646;
+}
+
+h3 {
+    color: white;
+    background-color: #cf4646;
+    margin: 0;
+    padding: 5px;
+}
+
+img {
+    height: 200px;
+}
+
+.content {
+    display: flex;
+    flex-direction: row;
+    padding: 0;
+    justify-content: center;
+}
+
+.description {
+    padding: 10px;
+}

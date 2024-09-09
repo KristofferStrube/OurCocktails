@@ -1,0 +1,23 @@
+﻿.drink-card-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-gap: 10px;
+}
+
+@media (min-width: 641px) {
+    .drink-card-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+}
+
+@media (min-width: 760px) {
+    .drink-card-grid {
+        grid-template-columns: 1fr 1fr 1fr;
+    }
+}
+
+@media (min-width: 960px) {
+    .drink-card-grid {
+        grid-template-columns: 1fr 1fr 1fr 1fr;
+    }
+}

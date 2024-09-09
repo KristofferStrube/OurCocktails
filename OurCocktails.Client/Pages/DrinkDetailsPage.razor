@@ -1,0 +1,119 @@
+﻿@page "/Drink/{DrinkUrl}/{IgnoredName?}/"
+@attribute [StreamRendering]
+@rendermode InteractiveWebAssembly
+@inject IStorage Storage
+@inject PersistentComponentState PersistentComponentState
+
+@if (drink is null)
+{
+    <text>...</text>
+}
+else
+{
+    <PageTitle>Our Cocktails - @drink.Name</PageTitle>
+
+    <h2>
+        @drink.Name
+    </h2>
+    <div class="content">
+        @if (drink.Images.FirstOrDefault() is { } firstImage)
+        {
+            <div>
+                <div class="img-container">
+                    <img src="@firstImage" />
+                </div>
+            </div>
+        }
+        <div class="description">
+            <p>
+                @drink.Summary @drink.Description
+            </p>
+            <div>
+                <h3>
+                    Recipe
+                </h3>
+                @(new MarkupString(drink.RecipeAsHtml))
+            </div>
+            <div>
+                <div class="ingredients-header">
+                    <h3>
+                        Ingredients
+                    </h3>
+                    <div>
+                        <label for="people" title="number of people">
+                            <svg class="bi bi-big" viewBox="0 0 16 16">
+                                <circle stroke-width="0" fill="#000000" cx="8" cy="4" r="2.828427125"></circle>
+                                <path stroke-width="0" fill="#000000" d="M 2 15 C 2 5 14 5 14 15 Z"></path>
+                            </svg>
+                        </label>
+                        <input id="people" @bind-value=people type="number" class="counter" />
+                    </div>
+                </div>
+                @foreach (IngredientLine line in drink.Ingredients)
+                {
+                    <div class="line">
+                        <div class="amount">
+                            @if (line.Amount is not 0)
+                            {
+                                @(line.Amount * people)
+                                <text>&nbsp;</text>
+                            }
+                        </div>
+                        <div class="unit">
+                            @if (line.Unit is not 0)
+                            {
+                                @line.Unit.ShortFormat()
+                                <text>&nbsp;</text>
+                            }
+                        </div>
+                        @if (line.Ingredient is { } ingredient)
+                        {
+                            <b title="@ingredient.Description">@ingredient.Name</b>
+                        }
+                        else if (line.Family is { } family)
+                        {
+                            <b title="@family.Description">@family.Name</b>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+<br />
+
+@code {
+    private Drink? drink;
+    private PersistingComponentStateSubscription persistingSubscription;
+
+    private int people = 1;
+
+    [Parameter]
+    public required string DrinkUrl { get; set; }
+
+    [Parameter]
+    public string? IgnoredName { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        persistingSubscription = PersistentComponentState.RegisterOnPersisting(PersistData);
+
+        if (!PersistentComponentState.TryTakeFromJson<Drink>(
+            "drink", out var restored))
+        {
+            drink = await Storage.GetDrink(DrinkUrl);
+        }
+        else
+        {
+            drink = restored!;
+        }
+    }
+
+    private Task PersistData()
+    {
+        PersistentComponentState.PersistAsJson("drink", drink);
+
+        return Task.CompletedTask;
+    }
+}

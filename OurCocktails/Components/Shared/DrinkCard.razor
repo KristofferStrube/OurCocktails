@@ -1,0 +1,18 @@
+﻿<a href="/Drink/@Drink.Url/@Drink.NameNormalized">
+    <div class="outer">
+        <h3>@Drink.Name</h3>
+        <div class="content">
+            @if (Drink.Images.FirstOrDefault() is { } drinkImage)
+            {
+                <div>
+                    <img src="@drinkImage" title="@Drink.Summary" alt="@Drink.Summary" />
+                </div>
+            }
+        </div>
+    </div>
+</a>
+
+@code {
+    [Parameter, EditorRequired]
+    public required Drink Drink { get; set; }
+}
