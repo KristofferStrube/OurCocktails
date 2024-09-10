@@ -4,6 +4,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/master/VisualStudio.gitignore
 
 profile.arm.json
+ourcocktails.db
+ourcocktails.db-shm
+ourcocktails.db-wal
 
 # User-specific files
 *.rsuser

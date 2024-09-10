@@ -1,0 +1,14 @@
+﻿.grid {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-gap: 5px;
+}
+
+small {
+    color: grey;
+    align-items: flex-end;
+}
+
+textarea {
+    min-height: 200px;
+}

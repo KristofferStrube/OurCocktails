@@ -6,6 +6,20 @@ a, .btn-link {
     color: #006bb7;
 }
 
+button {
+    color: white;
+    background-color: #cf4646;
+    border-radius: 5px;
+    border: 2px outset #a22a2a;
+}
+    button:hover, active {
+        background-color: #a22a2a;
+    }
+
+.lg-button {
+    font-size: medium;
+}
+
 .btn-primary {
     color: #fff;
     background-color: #1b6ec2;

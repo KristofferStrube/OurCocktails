@@ -1,0 +1,79 @@
+﻿@inject OurCocktailsContext Context
+
+<div class="grid">
+    <label for="name">Name: </label>
+    <input id="name" @bind-value=Drink.Name />
+    <small>The name of the drink e.g. "Gin & Tonic".</small>
+
+    <label for="summary">Summary: </label>
+    <input id="summary" @bind-value=Drink.Summary />
+    <small>A short single sentence summary that will also be used as the tooltip for the drink.</small>
+
+    <label for="description">Description: </label>
+    <textarea id="description" @oninput="e => Drink.Description = (string)e.Value!" class="multiline">@Drink.Description</textarea>
+    <small>Describe what kind of drink it is.<br />Maybe some history of its origin if relevant.</small>
+
+    <label for="recipe">Recipe: </label>
+    <textarea id="recipe" @oninput="e => Drink.Recipe = (string)e.Value!" class="multiline">@Drink.Recipe</textarea>
+    <small>A step-wize guide to make the drink.</small>
+
+    <label for="image">Image: </label>
+    <input id="image" @bind-value=image @bind-value:after="UpdateImage" />
+    <small>
+        Link to picture that will be used.
+    </small>
+    @if (image is not "")
+    {
+        <img height="100" src="@image" />
+        <span></span>
+        <span></span>
+    }
+
+@*     <label for="ingredients">Ingredients: </label>
+    <span></span>
+    <span></span>
+    @foreach(IngredientLine line in Drink.Ingredients)
+    {
+        <span></span>
+        <IngredientLineEditor IngredientLine="line" />
+        <span>
+            <button @onclick="() => Drink.Ingredients.Remove(line)">X</button>
+        </span>
+    }
+    <button @onclick=AddIngredient>Add ingredient</button> *@
+</div>
+
+@code {
+    [Parameter, EditorRequired]
+    public required Drink Drink { get; set; }
+
+    public string image = "";
+
+    protected override void OnParametersSet()
+    {
+        image = Drink.Images.FirstOrDefault() ?? "";
+    }
+
+    private void UpdateImage()
+    {
+        if (image is "")
+            return;
+
+        if (Drink.Images.Count is 0)
+        {
+            Drink.Images.Add(image);
+        }
+        else
+        {
+            Drink.Images[0] = image;
+        }
+    }
+
+    private async Task AddIngredient()
+    {
+        var newLine = IngredientLine.NewEmpty();
+        Context.Add(newLine);
+        await Context.SaveChangesAsync();
+        Drink.Ingredients.Add(newLine);
+    }
+}

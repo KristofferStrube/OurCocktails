@@ -7,4 +7,11 @@ public class IngredientLine
     public Family? Family { get; set; }
     public decimal Amount { get; set; }
     public Unit Unit { get; set; }
+
+    public static IngredientLine NewEmpty() => new()
+    {
+        Id = Guid.Empty,
+        Amount = 1,
+        Unit = Unit.Centiliter
+    };
 }

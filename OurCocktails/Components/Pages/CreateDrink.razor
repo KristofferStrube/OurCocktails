@@ -1,0 +1,20 @@
+﻿@page "/drink/new"
+@rendermode InteractiveServer
+@inject IStorage Storage
+@inject NavigationManager Navigator
+
+<h2>Create new drink</h2>
+
+<DrinkEditor Drink="drink" />
+<br />
+<button @onclick="Create">Create</button>
+
+@code {
+    private Drink drink = Drink.NewEmpty();
+
+    private async Task Create()
+    {
+        await Storage.AddDrink(drink);
+        Navigator.NavigateTo($"/drink/{drink.Url}/{drink.NameNormalized}/");
+    }
+}

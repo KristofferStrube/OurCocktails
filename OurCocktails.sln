@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OurCocktails", "OurCocktail
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OurCocktails.Client", "OurCocktails.Client\OurCocktails.Client.csproj", "{B7908E6D-91EA-43D5-A105-501ABEEE19CD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OurCocktails.Shared", "OurCocktails.Shared\OurCocktails.Shared.csproj", "{DB87BD03-C4F5-401B-823D-60F2A50BE912}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OurCocktails.Shared", "OurCocktails.Shared\OurCocktails.Shared.csproj", "{DB87BD03-C4F5-401B-823D-60F2A50BE912}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

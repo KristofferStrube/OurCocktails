@@ -11,5 +11,16 @@ public class Drink
     public required string Recipe { get; set; }
     public string RecipeAsHtml => Recipe.Replace("\n", "<br />");
     public List<string> Images { get; set; } = [];
-    public required List<IngredientLine> Ingredients { get; set; }
+    public List<IngredientLine> Ingredients { get; set; } = [];
+
+    public static Drink NewEmpty() => new()
+    {
+        Id = Guid.NewGuid(),
+        Url = Guid.NewGuid().ToString()[..6],
+        Name = "",
+        Summary = "",
+        Description = "",
+        Recipe = "",
+        Ingredients = []
+    };
 }

@@ -6,6 +6,7 @@ namespace OurCocktails.Client.Repositories;
 
 public class ApiStorage(HttpClient httpClient) : IStorage
 {
+
     public async Task<Drink?> GetDrink(string url)
     {
         HttpResponseMessage response = await httpClient.GetAsync($"/drink/{url}/");
@@ -16,6 +17,15 @@ public class ApiStorage(HttpClient httpClient) : IStorage
     }
 
     public Task<List<Drink>> GetDrinks()
+    {
+        throw new NotImplementedException();
+    }
+    public Task AddDrink(Drink drink)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task UpdateDrink(Drink drink)
     {
         throw new NotImplementedException();
     }

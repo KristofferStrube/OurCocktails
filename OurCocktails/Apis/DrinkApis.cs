@@ -8,9 +8,9 @@ public static class DrinkApis
 {
     public static IEndpointRouteBuilder MapDrinkApis(this IEndpointRouteBuilder builder)
     {
-        var group = builder.MapGroup("/drink/");
+        RouteGroupBuilder group = builder.MapGroup("/drink/");
 
-        _ = group.MapGet("/{url}", GetDrink);
+        group.MapGet("/{url}", GetDrink);
 
         return builder;
     }

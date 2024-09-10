@@ -1,0 +1,35 @@
+﻿@page "/drink/edit/{Url}"
+@rendermode InteractiveServer
+@inject IStorage Storage
+@inject NavigationManager Navigator
+
+<h2>Edit drink</h2>
+
+@if (drink is null)
+{
+    <p>Could not find drink with url '@Url'.</p>
+}
+else
+{
+    <DrinkEditor Drink="drink" />
+    <br />
+    <button @onclick="Update">Update</button>
+}
+
+@code {
+    private Drink? drink;
+
+    [Parameter]
+    public required string Url { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        drink = await Storage.GetDrink(Url);
+    }
+
+    private async Task Update()
+    {
+        await Storage.UpdateDrink(drink);
+        Navigator.NavigateTo($"/drink/{drink.Url}/{drink.NameNormalized}/");
+    }
+}

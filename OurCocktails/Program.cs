@@ -1,5 +1,6 @@
 using OurCocktails.Apis;
 using OurCocktails.Components;
+using OurCocktails.DataBase;
 using OurCocktails.Repositories;
 using OurCocktails.Shared.Repositories;
 
@@ -8,9 +9,11 @@ WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services
     .AddRazorComponents()
-    .AddInteractiveWebAssemblyComponents();
+    .AddInteractiveWebAssemblyComponents()
+    .AddInteractiveServerComponents();
 
-builder.Services.AddSingleton<IStorage, StaticStorage>();
+builder.Services.AddScoped<IStorage, DrinkStorage>();
+builder.Services.AddSqlite<OurCocktailsContext>("Data Source=.db/ourcocktails.db");
 
 WebApplication app = builder.Build();
 
@@ -35,6 +38,7 @@ app.MapDrinkApis();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
+    .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(typeof(OurCocktails.Client._Imports).Assembly);
 
 app.Run();

@@ -1,18 +1,32 @@
-﻿using OurCocktails.Shared.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using OurCocktails.DataBase;
+using OurCocktails.Shared.Models;
 using OurCocktails.Shared.Repositories;
 
 namespace OurCocktails.Repositories;
 
-public class StaticStorage : IStorage
+public class DrinkStorage(OurCocktailsContext context) : IStorage
 {
     public async Task<List<Drink>> GetDrinks()
     {
-        Console.WriteLine("HEY!");
-        return await Task.FromResult(drinks);
+        return await context.Drinks.ToListAsync();
     }
     public async Task<Drink?> GetDrink(string url)
     {
-        Console.WriteLine("HEY!"); return await Task.FromResult(drinks.FirstOrDefault(d => d.Url == url)); }
+        return await context.Drinks.FirstOrDefaultAsync(d => d.Url == url);
+    }
+
+    public async Task AddDrink(Drink drink)
+    {
+        context.Add(drink);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task UpdateDrink(Drink drink)
+    {
+        context.Update(drink);
+        await context.SaveChangesAsync();
+    }
 
     private static List<Drink> drinks { get; set; } = [
         new() {

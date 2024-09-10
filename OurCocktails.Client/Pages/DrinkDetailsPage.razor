@@ -14,6 +14,12 @@
     else
     {
         @drink.Name
+        <a href="/drink/edit/@DrinkUrl" style="float:right;">
+            <svg class="bi" viewBox="0 0 16 16">
+                <polygon stroke="#FFFFFF" stroke-width="2" fill="none" points="2,14 3,10 9,4 12,7 6,13"></polygon>
+                <polygon stroke="#FFFFFF" stroke-width="2" fill="none" points="9,4 11,2 14,5 12,7"></polygon>
+            </svg>
+        </a>
     }
 </h2>
 <div class="content">
@@ -37,7 +43,7 @@
                 </h3>
                 @(new MarkupString(drink.RecipeAsHtml))
             </div>
-            <div>
+            <div style="display:none;">
                 <div class="ingredients-header">
                     <h3>
                         Ingredients
