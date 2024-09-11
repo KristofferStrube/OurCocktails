@@ -4,7 +4,7 @@
 @inject IStorage Storage
 @inject PersistentComponentState PersistentComponentState
 
-<PageTitle>Our Cocktails - @IgnoredName</PageTitle>
+<PageTitle>Our Cocktails - @(drink?.Name ?? IgnoredName)</PageTitle>
 
 <h2>
     @if (drink is null)
