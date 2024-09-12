@@ -1,0 +1,48 @@
+﻿<div class="ingredients-header">
+    <h3>
+        Ingredients
+    </h3>
+    <div>
+        <label for="people" title="number of people">
+            <svg class="bi bi-big" viewBox="0 0 16 16">
+                <circle stroke-width="0" fill="#000000" cx="8" cy="4" r="2.828427125"></circle>
+                <path stroke-width="0" fill="#000000" d="M 2 15 C 2 5 14 5 14 15 Z"></path>
+            </svg>
+        </label>
+        <input id="people" @bind-value=people @bind-value:event="oninput" min="1" type="number" class="counter" />
+    </div>
+</div>
+<div class="lines">
+    @foreach (IngredientLine line in Ingredients)
+    {
+        <div class="amount">
+            @if (line.Amount is not 0)
+            {
+                @((line.Amount * people).ToString(CultureInfo.InvariantCulture))
+            }
+        </div>
+        <div class="unit">
+            @if (line.Unit is not 0)
+            {
+                @line.Unit.ShortFormat()
+            }
+        </div>
+        <div>
+            @if (line.Ingredient is { } ingredient)
+            {
+                <b title="@ingredient.Description">@ingredient.Name</b>
+            }
+            else if (line.Family is { } family)
+            {
+                <b title="@family.Description">@family.Name</b>
+            }
+        </div>
+    }
+</div>
+
+@code {
+    private int people = 1;
+
+    [Parameter, EditorRequired]
+    public required List<IngredientLine> Ingredients { get; set; }
+}

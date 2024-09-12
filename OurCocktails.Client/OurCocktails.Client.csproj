@@ -16,4 +16,8 @@
     <ProjectReference Include="..\OurCocktails.Shared\OurCocktails.Shared.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Pages\" />
+  </ItemGroup>
+
 </Project>

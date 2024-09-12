@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using OurCocktails.Apis;
 using OurCocktails.Components;
 using OurCocktails.DataBase;
@@ -16,6 +17,12 @@ builder.Services.AddScoped<IStorage, DrinkStorage>();
 builder.Services.AddSqlite<OurCocktailsContext>("Data Source=.db/ourcocktails.db");
 
 WebApplication app = builder.Build();
+
+using (IServiceScope scope = app.Services.CreateScope())
+{
+    OurCocktailsContext context = scope.ServiceProvider.GetRequiredService<OurCocktailsContext>();
+    context.Database.Migrate();
+}
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

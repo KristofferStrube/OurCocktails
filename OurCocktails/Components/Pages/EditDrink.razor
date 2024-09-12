@@ -3,6 +3,8 @@
 @inject IStorage Storage
 @inject NavigationManager Navigator
 
+<PageTitle>Our Cocktails - Edit @(drink?.Name ?? "drink")</PageTitle>
+
 <h2>Edit drink</h2>
 
 @if (drink is null)
@@ -14,6 +16,8 @@ else
     <DrinkEditor Drink="drink" />
     <br />
     <button @onclick="Update">Update</button>
+    <br />
+    <br />
 }
 
 @code {

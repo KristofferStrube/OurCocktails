@@ -18,29 +18,33 @@
     <small>A step-wize guide to make the drink.</small>
 
     <label for="image">Image: </label>
-    <input id="image" @bind-value=image @bind-value:after="UpdateImage" />
+    <input id="image" @bind-value=image @bind-value:event="oninput" @bind-value:after="UpdateImage" />
     <small>
         Link to picture that will be used.
     </small>
-    @if (image is not "")
-    {
-        <img height="100" src="@image" />
-        <span></span>
-        <span></span>
-    }
+    <span></span>
+    <div class="img-placeholder">
+        @if (image is not "")
+        {
+            <img src="@image" />
+        }
+    </div>
+    <span></span>
 
-@*     <label for="ingredients">Ingredients: </label>
+    <label for="ingredients">Ingredients: </label>
     <span></span>
     <span></span>
-    @foreach(IngredientLine line in Drink.Ingredients)
+    @foreach (IngredientLine line in Drink.Ingredients)
     {
         <span></span>
-        <IngredientLineEditor IngredientLine="line" />
-        <span>
+        <div class="line">
+            <IngredientLineEditor IngredientLine="line" />
             <button @onclick="() => Drink.Ingredients.Remove(line)">X</button>
-        </span>
+        </div>
+        <span></span>
     }
-    <button @onclick=AddIngredient>Add ingredient</button> *@
+    <span></span>
+    <button @onclick=AddIngredient>Add ingredient</button>
 </div>
 
 @code {
@@ -72,8 +76,8 @@
     private async Task AddIngredient()
     {
         var newLine = IngredientLine.NewEmpty();
-        Context.Add(newLine);
-        await Context.SaveChangesAsync();
         Drink.Ingredients.Add(newLine);
+
+        Context.Add(newLine);
     }
 }

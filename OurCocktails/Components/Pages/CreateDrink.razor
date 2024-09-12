@@ -3,11 +3,15 @@
 @inject IStorage Storage
 @inject NavigationManager Navigator
 
+<PageTitle>Our Cocktails - Create new drink</PageTitle>
+
 <h2>Create new drink</h2>
 
 <DrinkEditor Drink="drink" />
 <br />
 <button @onclick="Create">Create</button>
+<br />
+<br />
 
 @code {
     private Drink drink = Drink.NewEmpty();

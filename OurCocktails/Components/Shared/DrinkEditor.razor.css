@@ -1,6 +1,6 @@
 ﻿.grid {
     display: grid;
-    grid-template-columns: auto 1fr auto;
+    grid-template-columns: 1fr;
     grid-gap: 5px;
 }
 
@@ -11,4 +11,35 @@ small {
 
 textarea {
     min-height: 200px;
+}
+
+button {
+    height: 100%;
+}
+
+.img-placeholder {
+    height: 100px;
+}
+
+img {
+    height: 100%;
+}
+
+.line {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    padding: 5px;
+    background-color: #cf4646;
+}
+
+@media (min-width: 760px) {
+    .grid {
+        grid-template-columns: auto 1fr auto;
+    }
+
+    .line {
+        flex-direction: row;
+    }
 }

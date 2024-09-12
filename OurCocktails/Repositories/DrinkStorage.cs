@@ -13,7 +13,10 @@ public class DrinkStorage(OurCocktailsContext context) : IStorage
     }
     public async Task<Drink?> GetDrink(string url)
     {
-        return await context.Drinks.FirstOrDefaultAsync(d => d.Url == url);
+        return await context.Drinks
+            .Include(d => d.Ingredients)
+                .ThenInclude(line => line.Family)
+            .FirstOrDefaultAsync(d => d.Url == url);
     }
 
     public async Task AddDrink(Drink drink)
@@ -24,7 +27,7 @@ public class DrinkStorage(OurCocktailsContext context) : IStorage
 
     public async Task UpdateDrink(Drink drink)
     {
-        context.Update(drink);
+        context.Drinks.Update(drink);
         await context.SaveChangesAsync();
     }
 

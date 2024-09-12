@@ -1,15 +1,13 @@
 ﻿@inject OurCocktailsContext Context
 
-<div class="line">
-    <input id="name-@IngredientLine.Id" @bind-value=IngredientLine.Family!.Name />
-    <input id="amount-@IngredientLine.Amount" type="number" step="1" />
-    <InputSelect @bind-Value=@IngredientLine.Unit>
-        @foreach (Unit unit in Enum.GetValues(typeof(Unit)))
-        {
-            <option value="@unit">@unit.ShortFormat()</option>
-        }
-    </InputSelect>
-</div>
+<input id="name-@IngredientLine.Id" @bind-value=IngredientLine.Family!.Name />
+<input id="amount-@IngredientLine.Amount" @bind-value=@IngredientLine.Amount type="number" step="1" />
+<InputSelect @bind-Value=@IngredientLine.Unit>
+    @foreach (Unit unit in Enum.GetValues(typeof(Unit)))
+    {
+        <option value="@unit">@unit.ShortFormat()</option>
+    }
+</InputSelect>
 
 @code {
     [Parameter, EditorRequired]
@@ -26,7 +24,6 @@
                 };
 
             Context.Add(IngredientLine.Family);
-            Context.SaveChangesAsync();
         }
     }
 }
