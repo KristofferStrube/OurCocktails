@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.ComponentModel.DataAnnotations
 @attribute [StreamRendering]
 @inject IStorage Storage
 
@@ -16,12 +17,41 @@
 </div>
 
 <br />
+<hr />
+
+<EditForm Model="SubscriptionModel" OnValidSubmit="Submitted" FormName="subscriptionForm">
+    <h3>Sign Up for the Cocktail Newsletter!</h3>
+    <DataAnnotationsValidator/>
+    <ValidationSummary />
+    <label for="email">
+        Email
+    </label>
+    <InputText id="email" @bind-Value=SubscriptionModel!.Email />
+    <button type="submit">Sign Up!</button>
+</EditForm>
+
+<br />
 
 @code {
     private List<Drink> drinks = [];
 
+    [SupplyParameterFromForm]
+    private Subscription? SubscriptionModel { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
         drinks = await Storage.GetDrinks();
+        SubscriptionModel ??= new();
+    }
+
+    public void Submitted()
+    {
+        Console.WriteLine($"The email was '{SubscriptionModel!.Email}'");
+    }
+
+    public class Subscription
+    {
+        [EmailAddress(ErrorMessage = "You need to supply a valid email.")]
+        public string? Email { get; set; }
     }
 }
