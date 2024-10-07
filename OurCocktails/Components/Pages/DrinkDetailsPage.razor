@@ -1,5 +1,6 @@
 ﻿@page "/Drink/{DrinkUrl}/{IgnoredName?}/"
 @attribute [StreamRendering]
+@implements IDisposable
 @inject IStorage Storage
 @inject PersistentComponentState PersistentComponentState
 
@@ -65,14 +66,14 @@
     {
         persistingSubscription = PersistentComponentState.RegisterOnPersisting(PersistData);
 
-        if (!PersistentComponentState.TryTakeFromJson<Drink>(
+        if (PersistentComponentState.TryTakeFromJson<Drink>(
             "drink", out var restored))
         {
-            drink = await Storage.GetDrink(DrinkUrl);
+            drink = restored!;
         }
         else
         {
-            drink = restored!;
+            drink = await Storage.GetDrink(DrinkUrl);
         }
     }
 
@@ -81,5 +82,10 @@
         PersistentComponentState.PersistAsJson("drink", drink);
 
         return Task.CompletedTask;
+    }
+
+    public void Dispose()
+    {
+        persistingSubscription.Dispose();
     }
 }
