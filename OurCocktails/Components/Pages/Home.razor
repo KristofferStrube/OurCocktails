@@ -9,12 +9,19 @@
     Welcome to Our Cocktails. Here we will list most popular and new cocktails.
 </p>
 
-<div class="drink-card-grid">
-    @foreach (Drink drink in drinks)
-    {
-        <DrinkCard Drink="drink" />
-    }
-</div>
+@if (drinks is null)
+{
+    <text>Loading drink ...</text>
+}
+else
+{
+    <div class="drink-card-grid">
+        @foreach (Drink drink in drinks)
+        {
+            <DrinkCard Drink="drink" />
+        }
+    </div>
+}
 
 <br />
 <hr />
@@ -33,15 +40,15 @@
 <br />
 
 @code {
-    private List<Drink> drinks = [];
+    private List<Drink>? drinks;
 
     [SupplyParameterFromForm]
     private Subscription? SubscriptionModel { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        drinks = await Storage.GetDrinks();
         SubscriptionModel ??= new();
+        drinks = await Storage.GetDrinks();
     }
 
     public void Submitted()
