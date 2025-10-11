@@ -19,8 +19,9 @@ public static class DrinkApis
     {
         Drink? result = await storage.GetDrink(url);
 
-        return result is null
-            ? TypedResults.BadRequest($"Could not find drink with url '{url}'.")
-            : (Results<Ok<Drink>, BadRequest<string>>)TypedResults.Ok(result);
+        if (result is null)
+            return TypedResults.BadRequest($"Could not find drink with url '{url}'.");
+
+        return TypedResults.Ok(result);
     }
 }
