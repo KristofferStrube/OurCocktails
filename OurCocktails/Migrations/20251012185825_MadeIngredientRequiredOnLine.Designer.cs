@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using OurCocktails.DataBase;
 
@@ -10,9 +11,11 @@ using OurCocktails.DataBase;
 namespace OurCocktails.Migrations
 {
     [DbContext(typeof(OurCocktailsContext))]
-    partial class OurCocktailsContextModelSnapshot : ModelSnapshot
+    [Migration("20251012185825_MadeIngredientRequiredOnLine")]
+    partial class MadeIngredientRequiredOnLine
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "9.0.9");

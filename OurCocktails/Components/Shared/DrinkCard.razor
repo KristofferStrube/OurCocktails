@@ -2,7 +2,7 @@
     <div class="outer">
         <h3>@Drink.Name</h3>
         <div class="content">
-            @if (Drink.Images.FirstOrDefault() is { } drinkImage)
+            @if (Drink.Images.FirstOrDefault() is { Length: > 0 } drinkImage)
             {
                 <div>
                     <img src="@drinkImage" title="@Drink.Summary" alt="@Drink.Summary" />

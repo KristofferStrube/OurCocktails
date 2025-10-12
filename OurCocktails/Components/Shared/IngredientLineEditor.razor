@@ -1,6 +1,6 @@
 ﻿@inject OurCocktailsContext Context
 
-<input id="name-@IngredientLine.Id" @bind-value=IngredientLine.Ingredient!.Name />
+<input id="name-@IngredientLine.Id" @bind-value=IngredientLine.Ingredient.Name />
 <input id="amount-@IngredientLine.Id" @bind-value=@IngredientLine.Amount type="number" step="1" min="1" style="text-align: right;" />
 <InputSelect @bind-Value=@IngredientLine.Unit>
     @foreach (Unit unit in Enum.GetValues(typeof(Unit)))
@@ -12,18 +12,4 @@
 @code {
     [Parameter, EditorRequired]
     public required IngredientLine IngredientLine { get; set; }
-
-    protected override void OnParametersSet()
-    {
-        if (IngredientLine.Ingredient is null)
-        {
-            IngredientLine.Ingredient = new()
-                {
-                    Id = Guid.NewGuid(),
-                    Name = ""
-                };
-
-            Context.Add(IngredientLine.Ingredient);
-        }
-    }
 }

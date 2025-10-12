@@ -4,6 +4,7 @@ using OurCocktails.Components;
 using OurCocktails.DataBase;
 using OurCocktails.Repositories;
 using OurCocktails.Shared.Repositories;
+using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services
 
 builder.Services.AddScoped<IStorage, DrinkStorage>();
 builder.Services.AddSqlite<OurCocktailsContext>("Data Source=.db/ourcocktails.db");
+builder.Services.AddOpenApi();
 
 WebApplication app = builder.Build();
 
@@ -41,7 +43,9 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapDrinkApi();
+app.MapGroup("/api/").MapDrinkApi();
+app.MapOpenApi();
+app.MapScalarApiReference();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()

@@ -11,6 +11,7 @@ public static class DrinkApi
         RouteGroupBuilder group = builder.MapGroup("/drink/");
 
         group.MapGet("/{url}", GetDrink);
+        group.MapPost("/", CreateDrink);
 
         return builder;
     }
@@ -25,5 +26,12 @@ public static class DrinkApi
         return TypedResults.Ok(result);
     }
 
-    public static async Task<>
+    public static async Task<Ok<Drink>> CreateDrink(CreateDrinkRequest request, IStorage storage)
+    {
+        Drink newDrink = request.MapToDrink();
+
+        await storage.AddDrink(newDrink);
+
+        return TypedResults.Ok(newDrink);
+    }
 }

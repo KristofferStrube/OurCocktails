@@ -15,11 +15,13 @@ public class DrinkStorage(OurCocktailsContext context) : IStorage
     {
         return await context.Drinks
             .Include(d => d.Ingredients)
+                .ThenInclude(i => i.Ingredient)
             .FirstOrDefaultAsync(d => d.Url == url);
     }
 
     public async Task AddDrink(Drink drink)
     {
+        drink.Id = Guid.NewGuid();
         context.Add(drink);
         await context.SaveChangesAsync();
     }
