@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using OurCocktails.Apis;
+using OurCocktails.Api;
 using OurCocktails.Components;
 using OurCocktails.DataBase;
 using OurCocktails.Repositories;
@@ -41,7 +41,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-app.MapDrinkApis();
+app.MapDrinkApi();
 
 app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()

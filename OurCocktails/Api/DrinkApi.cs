@@ -2,11 +2,11 @@
 using OurCocktails.Shared.Models;
 using OurCocktails.Shared.Repositories;
 
-namespace OurCocktails.Apis;
+namespace OurCocktails.Api;
 
-public static class DrinkApis
+public static class DrinkApi
 {
-    public static IEndpointRouteBuilder MapDrinkApis(this IEndpointRouteBuilder builder)
+    public static IEndpointRouteBuilder MapDrinkApi(this IEndpointRouteBuilder builder)
     {
         RouteGroupBuilder group = builder.MapGroup("/drink/");
 
@@ -15,13 +15,15 @@ public static class DrinkApis
         return builder;
     }
 
-    public static async Task<Results<Ok<Drink>, BadRequest<string>>> GetDrink(string url, IStorage storage)
+    public static async Task<Results<Ok<Drink>, NotFound<string>>> GetDrink(string url, IStorage storage)
     {
         Drink? result = await storage.GetDrink(url);
 
         if (result is null)
-            return TypedResults.BadRequest($"Could not find drink with url '{url}'.");
+            return TypedResults.NotFound($"Could not find drink with url '{url}'.");
 
         return TypedResults.Ok(result);
     }
+
+    public static async Task<>
 }
