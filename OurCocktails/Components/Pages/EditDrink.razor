@@ -33,6 +33,9 @@ else
 
     private async Task Update()
     {
+        if (drink is null)
+            return;
+
         await Storage.UpdateDrink(drink);
         Navigator.NavigateTo($"/drink/{drink.Url}/{drink.NameNormalized}/");
     }
