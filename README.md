@@ -3,9 +3,6 @@ This is a site for presenting cocktail recipes. It will additionally integrate w
 
 *This is still under development.*
 
-## Demo
-A demo is hosted on Azure for now: https://ourcocktails.azurewebsites.net/
-
 ## Tech
 This is also a place where I would like to explore what user interactions Blazor WebApps can enable.
 
