@@ -1,17 +1,25 @@
 ﻿using OurCocktails.Shared.Models;
-using OurCocktails.Shared.Validations;
+using System.ComponentModel.DataAnnotations;
 
 namespace OurCocktails.Api;
 
 public class CreateDrinkRequest
 {
-    public required string Name { get; set; }
-    public required string Summary { get; set; }
-    public required string Description { get; set; }
-    public required string Recipe { get; set; }
+    [Required]
+    public string Name { get; set; } = default!;
+
+    [Required]
+    public string Summary { get; set; } = default!;
+
+    [Required]
+    public string Description { get; set; } = default!;
+
+    [Required]
+    public string Recipe { get; set; } = default!;
+
     public List<string> Images { get; set; } = [];
 
-    [Size<IngredientLine>(MinLength: 1)]
+    [MinLength(1, ErrorMessage = "A drink should have at least 1 ingredient.")]
     public List<IngredientLine> Ingredients { get; set; } = [];
 
     public Drink MapToDrink()

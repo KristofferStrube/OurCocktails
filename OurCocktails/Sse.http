@@ -1,0 +1,6 @@
+@baseUrl = https://localhost:7121
+
+### Call SSE endpoint
+
+GET {{baseUrl}}/api/drink/randomDescription
+Accept: text/event-stream

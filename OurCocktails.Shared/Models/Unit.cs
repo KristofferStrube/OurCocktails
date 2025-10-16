@@ -1,5 +1,8 @@
-﻿namespace OurCocktails.Shared.Models;
+﻿using System.Text.Json.Serialization;
 
+namespace OurCocktails.Shared.Models;
+
+[JsonConverter(typeof(JsonStringEnumConverter<Unit>))]
 public enum Unit
 {
     Deciliter,

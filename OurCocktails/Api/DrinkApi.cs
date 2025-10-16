@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
 using OurCocktails.Shared.Models;
 using OurCocktails.Shared.Repositories;
+using System.Runtime.CompilerServices;
 
 namespace OurCocktails.Api;
 
@@ -12,6 +13,7 @@ public static class DrinkApi
 
         group.MapGet("/{url}", GetDrink);
         group.MapPost("/", CreateDrink);
+        group.MapGet("/randomDescription", StreamRandomDrinkDescription);
 
         return builder;
     }
@@ -33,5 +35,27 @@ public static class DrinkApi
         await storage.AddDrink(newDrink);
 
         return TypedResults.Ok(newDrink);
+    }
+
+    public static async Task<ServerSentEventsResult<string>> StreamRandomDrinkDescription(IStorage storage, CancellationToken cancellationToken)
+    {
+        Drink randomDrink = await storage.GetRandomDrink();
+
+        async IAsyncEnumerable<string> DrinkDescription([EnumeratorCancellation] CancellationToken cancellationToken)
+        {
+            yield return randomDrink.Name;
+            foreach(string line in randomDrink.Description.Split("."))
+            {
+                await Task.Delay(1000, cancellationToken);
+                yield return line.Trim();
+            }
+            foreach (string line in randomDrink.Recipe.Split("\n"))
+            {
+                await Task.Delay(1000, cancellationToken);
+                yield return line.Trim();
+            }
+        }
+
+        return TypedResults.ServerSentEvents(DrinkDescription(cancellationToken));
     }
 }

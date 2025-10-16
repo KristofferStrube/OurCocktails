@@ -41,7 +41,7 @@
                 <h3>
                     Recipe
                 </h3>
-                @(new MarkupString(drink.RecipeAsHtml))
+                <pre>@drink.Recipe</pre>
             </div>
             <div>
                 <IngredientLinesPresenter Ingredients="drink.Ingredients" @rendermode=InteractiveWebAssembly />

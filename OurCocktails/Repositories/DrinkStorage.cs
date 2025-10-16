@@ -19,6 +19,15 @@ public class DrinkStorage(OurCocktailsContext context) : IStorage
             .FirstOrDefaultAsync(d => d.Url == url);
     }
 
+    public async Task<Drink> GetRandomDrink()
+    {
+        return await context.Drinks
+            .OrderBy(d => EF.Functions.Random())
+            .Include(d => d.Ingredients)
+                .ThenInclude(i => i.Ingredient)
+            .FirstAsync();
+    }
+ 
     public async Task AddDrink(Drink drink)
     {
         drink.Id = Guid.NewGuid();
@@ -29,6 +38,12 @@ public class DrinkStorage(OurCocktailsContext context) : IStorage
     public async Task UpdateDrink(Drink drink)
     {
         context.Drinks.Update(drink);
+        await context.SaveChangesAsync();
+    }
+
+    public async Task DeleteDrink(Drink drink)
+    {
+        context.Drinks.Remove(drink);
         await context.SaveChangesAsync();
     }
 }

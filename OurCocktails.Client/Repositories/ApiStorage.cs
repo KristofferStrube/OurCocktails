@@ -16,6 +16,11 @@ public class ApiStorage(HttpClient httpClient) : IStorage
             : null;
     }
 
+    public Task<Drink> GetRandomDrink()
+    {
+        throw new NotImplementedException();
+    }
+
     public Task<List<Drink>> GetDrinks()
     {
         throw new NotImplementedException();
@@ -26,6 +31,11 @@ public class ApiStorage(HttpClient httpClient) : IStorage
     }
 
     public Task UpdateDrink(Drink drink)
+    {
+        throw new NotImplementedException();
+    }
+
+    public Task DeleteDrink(Drink drink)
     {
         throw new NotImplementedException();
     }

@@ -18,6 +18,7 @@ else
     <button @onclick="Update">Update</button>
     <br />
     <br />
+    <button @onclick="Delete">Delete</button>
 }
 
 @code {
@@ -38,5 +39,14 @@ else
 
         await Storage.UpdateDrink(drink);
         Navigator.NavigateTo($"/drink/{drink.Url}/{drink.NameNormalized}/");
+    }
+
+    private async Task Delete()
+    {
+        if (drink is null)
+            return;
+
+        await Storage.DeleteDrink(drink);
+        Navigator.NavigateTo($"/");
     }
 }

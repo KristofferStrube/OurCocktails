@@ -1,0 +1,21 @@
+﻿@using System.Net.ServerSentEvents
+@inject HttpClient HttpClient
+@rendermode WebAssemblyWithoutPrerender
+
+<pre>@drinkDescription</pre>
+
+@code {
+	private string drinkDescription = "";
+
+	protected override async Task OnInitializedAsync()
+	{
+		using Stream drinkDescriptionStream = await HttpClient.GetStreamAsync("/api/drink/randomDescription");
+		await foreach (SseItem<string> e in SseParser.Create(drinkDescriptionStream).EnumerateAsync())
+		{
+			drinkDescription += e.Data + "\n";
+			StateHasChanged();
+		}
+	}
+
+	public static IComponentRenderMode WebAssemblyWithoutPrerender = new InteractiveWebAssemblyRenderMode(prerender: false);
+}
