@@ -6,7 +6,6 @@ This is a site for presenting cocktail recipes. It will additionally integrate w
 ## Tech
 This is also a place where I would like to explore what user interactions Blazor WebApps can enable.
 
-- Framework: .NET Blazor WebApp (primarily using interactive WebAssembly and stream rendering.)
+- Framework: .NET Blazor WebApp
 - DB: SQLite
 - ORM: EF Core
-- Hosting: Azure
