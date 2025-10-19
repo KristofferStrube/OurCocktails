@@ -1,6 +1,9 @@
+using Microsoft.AspNetCore.Components.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OurCocktails.Api;
 using OurCocktails.Components;
+using OurCocktails.Components.Account;
 using OurCocktails.DataBase;
 using OurCocktails.Repositories;
 using OurCocktails.Shared.Repositories;
@@ -15,16 +18,35 @@ builder.Services
     .AddInteractiveServerComponents();
 
 builder.Services.AddScoped<IStorage, DrinkStorage>();
-builder.Services.AddSqlite<OurCocktailsContext>("Data Source=.db/ourcocktails.db");
+builder.Services.AddDbContext<OurCocktailsContext>(options =>
+    options.UseSqlite("Data Source=.db/ourcocktails.db"));
 builder.Services.AddOpenApi();
 
-WebApplication app = builder.Build();
 
-using (IServiceScope scope = app.Services.CreateScope())
+#region Authentication services
+builder.Services.AddCascadingAuthenticationState();
+builder.Services.AddScoped<IdentityRedirectManager>();
+builder.Services.AddScoped<AuthenticationStateProvider, IdentityRevalidatingAuthenticationStateProvider>();
+
+builder.Services.AddAuthentication(options =>
 {
-    OurCocktailsContext context = scope.ServiceProvider.GetRequiredService<OurCocktailsContext>();
-    context.Database.Migrate();
-}
+    options.DefaultScheme = IdentityConstants.ApplicationScheme;
+    options.DefaultSignInScheme = IdentityConstants.ExternalScheme;
+})
+    .AddIdentityCookies();
+builder.Services.AddIdentityCore<ApplicationUser>(options =>
+    {
+        options.SignIn.RequireConfirmedAccount = true;
+        options.Stores.SchemaVersion = IdentitySchemaVersions.Version3;
+    })
+    .AddEntityFrameworkStores<OurCocktailsContext>()
+    .AddSignInManager()
+    .AddDefaultTokenProviders();
+
+builder.Services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+#endregion
+
+WebApplication app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -51,5 +73,8 @@ app.MapRazorComponents<App>()
     .AddInteractiveWebAssemblyRenderMode()
     .AddInteractiveServerRenderMode()
     .AddAdditionalAssemblies(typeof(OurCocktails.Client._Imports).Assembly);
+
+// Add additional endpoints required by the Identity /Account Razor components.
+app.MapAdditionalIdentityEndpoints();
 
 app.Run();
