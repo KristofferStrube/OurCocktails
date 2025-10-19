@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace OurCocktails.Shared.Models;
+namespace OurCocktails.Client.Models;
 
 [JsonConverter(typeof(JsonStringEnumConverter<Unit>))]
 public enum Unit

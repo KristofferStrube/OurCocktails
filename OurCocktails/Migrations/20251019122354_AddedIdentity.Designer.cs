@@ -212,7 +212,7 @@ namespace OurCocktails.Migrations
                     b.ToTable("AspNetUsers", (string)null);
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Drink", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Drink", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -247,7 +247,7 @@ namespace OurCocktails.Migrations
                     b.ToTable("Drinks");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Ingredient", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Ingredient", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -270,7 +270,7 @@ namespace OurCocktails.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.IngredientLine", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.IngredientLine", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -348,20 +348,20 @@ namespace OurCocktails.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Ingredient", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Ingredient", b =>
                 {
-                    b.HasOne("OurCocktails.Shared.Models.Ingredient", null)
+                    b.HasOne("OurCocktails.Client.Models.Ingredient", null)
                         .WithMany("FamilyHierarchy")
                         .HasForeignKey("IngredientId");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.IngredientLine", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.IngredientLine", b =>
                 {
-                    b.HasOne("OurCocktails.Shared.Models.Drink", null)
+                    b.HasOne("OurCocktails.Client.Models.Drink", null)
                         .WithMany("Ingredients")
                         .HasForeignKey("DrinkId");
 
-                    b.HasOne("OurCocktails.Shared.Models.Ingredient", "Ingredient")
+                    b.HasOne("OurCocktails.Client.Models.Ingredient", "Ingredient")
                         .WithMany()
                         .HasForeignKey("IngredientId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -370,12 +370,12 @@ namespace OurCocktails.Migrations
                     b.Navigation("Ingredient");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Drink", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Drink", b =>
                 {
                     b.Navigation("Ingredients");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Ingredient", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Ingredient", b =>
                 {
                     b.Navigation("FamilyHierarchy");
                 });

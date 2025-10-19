@@ -2,8 +2,9 @@
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
-namespace OurCocktails.Shared.Models;
+namespace OurCocktails.Client.Models;
 
+[ValidatableType]
 public class Drink
 {
     /// <summary>
@@ -28,7 +29,7 @@ public class Drink
     /// </summary>
     [JsonIgnore]
     public string NameNormalized => UrlEncoder.Default.Encode(Name.ToLower().Replace(" - ", "-").Replace(" ", "-").Replace(".", "").Replace("&", "and"));
-    
+
     /// <summary>
     /// A short summary of the drink that will be shown in the drink card.
     /// </summary>

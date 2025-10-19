@@ -1,9 +1,9 @@
-using System.Security.Claims;
-using OurCocktails.DataBase;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Server;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using OurCocktails.DataBase;
+using System.Security.Claims;
 
 namespace OurCocktails.Components.Account
 {

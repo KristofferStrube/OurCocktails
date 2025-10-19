@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http.HttpResults;
-using OurCocktails.Shared.Models;
-using OurCocktails.Shared.Repositories;
+using OurCocktails.Client.Models;
+using OurCocktails.Client.Repositories;
 using System.Runtime.CompilerServices;
 
 namespace OurCocktails.Api;
@@ -44,7 +44,7 @@ public static class DrinkApi
         async IAsyncEnumerable<string> DrinkDescription([EnumeratorCancellation] CancellationToken cancellationToken)
         {
             yield return randomDrink.Name;
-            foreach(string line in randomDrink.Description.Split("."))
+            foreach (string line in randomDrink.Description.Split("."))
             {
                 await Task.Delay(1000, cancellationToken);
                 yield return line.Trim();

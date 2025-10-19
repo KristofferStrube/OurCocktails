@@ -1,4 +1,4 @@
-﻿using OurCocktails.Shared.Models;
+﻿using OurCocktails.Client.Models;
 using System.ComponentModel.DataAnnotations;
 
 namespace OurCocktails.Api;

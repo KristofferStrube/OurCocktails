@@ -1,6 +1,6 @@
-﻿using OurCocktails.Shared.Models;
+﻿using OurCocktails.Client.Models;
 
-namespace OurCocktails.Shared.Repositories;
+namespace OurCocktails.Client.Repositories;
 
 public interface IStorage
 {

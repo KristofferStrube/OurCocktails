@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using OurCocktails.Client.Repositories;
-using OurCocktails.Shared.Repositories;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace OurCocktails.Shared.Models;
+namespace OurCocktails.Client.Models;
 
 public class IngredientLine
 {

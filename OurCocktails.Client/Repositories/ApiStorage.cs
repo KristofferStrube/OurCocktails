@@ -1,5 +1,4 @@
-﻿using OurCocktails.Shared.Models;
-using OurCocktails.Shared.Repositories;
+﻿using OurCocktails.Client.Models;
 using System.Net.Http.Json;
 
 namespace OurCocktails.Client.Repositories;

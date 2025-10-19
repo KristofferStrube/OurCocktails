@@ -20,7 +20,7 @@ namespace OurCocktails.Migrations
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.8");
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Drink", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Drink", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -55,7 +55,7 @@ namespace OurCocktails.Migrations
                     b.ToTable("Drinks");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Family", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Family", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -78,7 +78,7 @@ namespace OurCocktails.Migrations
                     b.ToTable("Families");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Ingredient", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Ingredient", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -101,7 +101,7 @@ namespace OurCocktails.Migrations
                     b.ToTable("Ingredients");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.IngredientLine", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.IngredientLine", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -133,31 +133,31 @@ namespace OurCocktails.Migrations
                     b.ToTable("IngredientLines");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Family", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Family", b =>
                 {
-                    b.HasOne("OurCocktails.Shared.Models.Family", null)
+                    b.HasOne("OurCocktails.Client.Models.Family", null)
                         .WithMany("Ancestors")
                         .HasForeignKey("FamilyId");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Ingredient", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Ingredient", b =>
                 {
-                    b.HasOne("OurCocktails.Shared.Models.Ingredient", null)
+                    b.HasOne("OurCocktails.Client.Models.Ingredient", null)
                         .WithMany("FamilyHierarchy")
                         .HasForeignKey("IngredientId");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.IngredientLine", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.IngredientLine", b =>
                 {
-                    b.HasOne("OurCocktails.Shared.Models.Drink", null)
+                    b.HasOne("OurCocktails.Client.Models.Drink", null)
                         .WithMany("Ingredients")
                         .HasForeignKey("DrinkId");
 
-                    b.HasOne("OurCocktails.Shared.Models.Family", "Family")
+                    b.HasOne("OurCocktails.Client.Models.Family", "Family")
                         .WithMany()
                         .HasForeignKey("FamilyId");
 
-                    b.HasOne("OurCocktails.Shared.Models.Ingredient", "Ingredient")
+                    b.HasOne("OurCocktails.Client.Models.Ingredient", "Ingredient")
                         .WithMany()
                         .HasForeignKey("IngredientId");
 
@@ -166,17 +166,17 @@ namespace OurCocktails.Migrations
                     b.Navigation("Ingredient");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Drink", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Drink", b =>
                 {
                     b.Navigation("Ingredients");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Family", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Family", b =>
                 {
                     b.Navigation("Ancestors");
                 });
 
-            modelBuilder.Entity("OurCocktails.Shared.Models.Ingredient", b =>
+            modelBuilder.Entity("OurCocktails.Client.Models.Ingredient", b =>
                 {
                     b.Navigation("FamilyHierarchy");
                 });

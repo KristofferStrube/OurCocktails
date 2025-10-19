@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using OurCocktails.Client.Models;
+using OurCocktails.Client.Repositories;
 using OurCocktails.DataBase;
-using OurCocktails.Shared.Models;
-using OurCocktails.Shared.Repositories;
 
 namespace OurCocktails.Repositories;
 
@@ -27,7 +27,7 @@ public class DrinkStorage(OurCocktailsContext context) : IStorage
                 .ThenInclude(i => i.Ingredient)
             .FirstAsync();
     }
- 
+
     public async Task AddDrink(Drink drink)
     {
         drink.Id = Guid.NewGuid();

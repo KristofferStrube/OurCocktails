@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using OurCocktails.Shared.Models;
+using OurCocktails.Client.Models;
 
 namespace OurCocktails.DataBase;
 

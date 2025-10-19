@@ -2,11 +2,12 @@ using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using OurCocktails.Api;
+using OurCocktails.Client.Extensions;
+using OurCocktails.Client.Repositories;
 using OurCocktails.Components;
 using OurCocktails.Components.Account;
 using OurCocktails.DataBase;
 using OurCocktails.Repositories;
-using OurCocktails.Shared.Repositories;
 using Scalar.AspNetCore;
 
 WebApplicationBuilder builder = WebApplication.CreateBuilder(args);
@@ -21,7 +22,11 @@ builder.Services.AddScoped<IStorage, DrinkStorage>();
 builder.Services.AddDbContext<OurCocktailsContext>(options =>
     options.UseSqlite("Data Source=.db/ourcocktails.db"));
 builder.Services.AddOpenApi();
-builder.Services.AddValidation();
+
+#region Validation
+//builder.Services.AddValidation();
+//builder.Services.AddValidationForTypesInClient();
+#endregion
 
 #region Authentication services
 builder.Services.AddCascadingAuthenticationState();
