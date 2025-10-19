@@ -1,4 +1,4 @@
-﻿using OurCocktails.Shared.Validations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.Text.Encodings.Web;
 using System.Text.Json.Serialization;
 
@@ -51,7 +51,7 @@ public class Drink
     /// <summary>
     /// The ingredients for the drink.
     /// </summary>
-    [Size<IngredientLine>(MinLength: 1)]
+    [MinLength(1, ErrorMessage = "A drink should have at least 1 ingredient.")]
     public List<IngredientLine> Ingredients { get; set; } = [];
 
     public static Drink NewEmpty() => new()

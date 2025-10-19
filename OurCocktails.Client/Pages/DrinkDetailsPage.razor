@@ -1,6 +1,7 @@
 ﻿@page "/Drink/{DrinkUrl}/{IgnoredName?}/"
 @attribute [StreamRendering]
 @implements IDisposable
+@rendermode InteractiveWebAssembly
 @inject IStorage Storage
 @inject PersistentComponentState PersistentComponentState
 
@@ -44,7 +45,7 @@
                 <pre>@drink.Recipe</pre>
             </div>
             <div>
-                <IngredientLinesPresenter Ingredients="drink.Ingredients" @rendermode=InteractiveWebAssembly />
+                <IngredientLinesPresenter Ingredients="drink.Ingredients" />
             </div>
         </div>
     }
