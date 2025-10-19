@@ -1,79 +1,117 @@
-﻿@inject OurCocktailsContext Context
+﻿@using OurCocktails.ViewModels
+@inject OurCocktailsContext Context
 
-<div class="grid">
-    <label for="name">Name: </label>
-    <input id="name" @bind-value=Drink.Name />
-    <small>The name of the drink e.g. "Gin & Tonic".</small>
+<EditForm Model="Model" OnValidSubmit="@HandleValidSubmit">
+	<DataAnnotationsValidator />
+	<div class="grid">
+		<label for="name">Name: </label>
+		<input id="name" @bind-value=Model.Drink.Name />
+		<small>
+			The name of the drink e.g. "Gin & Tonic".
+			<ValidationMessage For="@(() => Model.Drink!.Name)" />
+		</small>
 
-    <label for="summary">Summary: </label>
-    <input id="summary" @bind-value=Drink.Summary />
-    <small>A short single sentence summary that will also be used as the tooltip for the drink.</small>
+		<label for="summary">Summary: </label>
+		<input id="summary" @bind-value=Model.Drink.Summary />
+		<small>A short single sentence summary that will also be used as the tooltip for the drink.</small>
 
-    <label for="description">Description: </label>
-    <textarea id="description" @oninput="e => Drink.Description = (string)e.Value!" class="multiline">@Drink.Description</textarea>
-    <small>Describe what kind of drink it is.<br />Maybe some history of its origin if relevant.</small>
+		<label for="description">Description: </label>
+		<textarea id="description" @oninput="e => Model.Drink.Description = (string)e.Value!" class="multiline">@Model.Drink.Description</textarea>
+		<small>Describe what kind of drink it is.<br />Maybe some history of its origin if relevant.</small>
 
-    <label for="recipe">Recipe: </label>
-    <textarea id="recipe" @oninput="e => Drink.Recipe = (string)e.Value!" class="multiline">@Drink.Recipe</textarea>
-    <small>A step-wise guide to make the drink.</small>
+		<label for="recipe">Recipe: </label>
+		<textarea id="recipe" @oninput="e => Model.Drink.Recipe = (string)e.Value!" class="multiline">@Model.Drink.Recipe</textarea>
+		<small>A step-wise guide to make the drink.</small>
 
-    <label for="image">Image: </label>
-    <input id="image" @bind-value=image @bind-value:event="oninput" @bind-value:after="UpdateImage" />
-    <small>
-        Link to picture that will be used.
-    </small>
-    <span></span>
-    <div class="img-placeholder">
-        @if (image is not "")
-        {
-            <img src="@image" />
-        }
-    </div>
-    <span></span>
+		<label for="image">Image: </label>
+		<input id="image" @bind-value=image @bind-value:event="oninput" @bind-value:after="UpdateImage" />
+		<small>
+			Link to picture that will be used.
+		</small>
+		<span></span>
+		<div class="img-placeholder">
+			@if (image is not "")
+			{
+				<img src="@image" />
+			}
+		</div>
+		<span></span>
 
-    <label for="ingredients">Ingredients: </label>
-    @foreach (IngredientLine line in Drink.Ingredients)
-    {
-        <div class="line">
-            <IngredientLineEditor IngredientLine="line" />
-            <button @onclick="() => Drink.Ingredients.Remove(line)">X</button>
-        </div>
-        <span></span>
-        <span></span>
-    }
-    <button @onclick=AddIngredient>Add ingredient</button>
-    <span></span>
-</div>
+		<label for="ingredients">Ingredients: </label>
+
+		@for (int i = 0; i < Model.Drink.Ingredients.Count; i++)
+		{
+			var itemIndex = i;
+			<div class="line">
+				<input id=@($"ingredient-name-{Model.Drink.Ingredients[itemIndex].Id}") @bind-value=Model.Drink.Ingredients[itemIndex].Ingredient.Name />
+				<input id=@($"amount-{Model.Drink.Ingredients[itemIndex].Id}") @bind-value=Model.Drink.Ingredients[itemIndex].Amount type="number" step="1" min="1" style="text-align: right;" />
+				<InputSelect id=@($"unit-{Model.Drink.Ingredients[itemIndex].Id}") @bind-Value=@Model.Drink.Ingredients[itemIndex].Unit>
+					@foreach (Unit unit in Enum.GetValues(typeof(Unit)))
+					{
+						<option value="@unit">@unit.ShortFormat()</option>
+					}
+				</InputSelect>
+				<button @onclick="() => Model.Drink.Ingredients.Remove(Model.Drink.Ingredients[itemIndex])">X</button>
+			</div>
+			<span>
+				<ValidationMessage For="@(() => Model.Drink.Ingredients[itemIndex].Ingredient.Name)" />
+				<ValidationMessage For="@(() => Model.Drink.Ingredients[itemIndex].Amount)" />
+			</span>
+			<span></span>
+		}
+		<button @onclick=AddIngredient>Add ingredient</button>
+		<span>
+			<ValidationMessage For="@(() => Model.Drink!.Ingredients)" />
+		</span>
+	</div>
+
+	<button type="submit" id="submit-form">@SubmitText</button>
+
+</EditForm>
 
 @code {
-    [Parameter, EditorRequired]
-    public required Drink Drink { get; set; }
+	private DrinkEditorModel Model;
 
-    public string image = "";
+	[Parameter, EditorRequired]
+	public required Drink Drink { get; set; }
 
-    protected override void OnParametersSet()
-    {
-        image = Drink.Images.FirstOrDefault() ?? "";
-    }
+	[Parameter, EditorRequired]
+	public required string SubmitText { get; set; }
 
-    private void UpdateImage()
-    {
-        if (image is "")
-            return;
+	[Parameter, EditorRequired]
+	public required Func<Task> SubmitCallback { get; set; }
 
-        if (Drink.Images.Count is 0)
-        {
-            Drink.Images.Add(image);
-        }
-        else
-        {
-            Drink.Images[0] = image;
-        }
-    }
+	public string image = "";
 
-    private void AddIngredient()
-    {
-        var newLine = IngredientLine.NewEmpty();
-        Drink.Ingredients.Add(newLine);
-    }
+	protected override void OnParametersSet()
+	{
+		Model = new(Drink);
+		image = Model.Drink.Images.FirstOrDefault() ?? "";
+	}
+
+	private async Task HandleValidSubmit()
+	{
+		await SubmitCallback();
+	}
+
+	private void UpdateImage()
+	{
+		if (image is "")
+			return;
+
+		if (Model.Drink.Images.Count is 0)
+		{
+			Model.Drink.Images.Add(image);
+		}
+		else
+		{
+			Model.Drink.Images[0] = image;
+		}
+	}
+
+	private void AddIngredient()
+	{
+		var newLine = IngredientLine.NewEmpty();
+		Model.Drink.Ingredients.Add(newLine);
+	}
 }

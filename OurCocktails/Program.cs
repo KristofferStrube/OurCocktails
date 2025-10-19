@@ -21,7 +21,7 @@ builder.Services.AddScoped<IStorage, DrinkStorage>();
 builder.Services.AddDbContext<OurCocktailsContext>(options =>
     options.UseSqlite("Data Source=.db/ourcocktails.db"));
 builder.Services.AddOpenApi();
-
+builder.Services.AddValidation();
 
 #region Authentication services
 builder.Services.AddCascadingAuthenticationState();

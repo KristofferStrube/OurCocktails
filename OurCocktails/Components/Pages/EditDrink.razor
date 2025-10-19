@@ -9,44 +9,43 @@
 
 @if (drink is null)
 {
-    <p>Could not find drink with url '@Url'.</p>
+	<p>Could not find drink with url '@Url'.</p>
 }
 else
 {
-    <DrinkEditor Drink="drink" />
-    <br />
-    <button @onclick="Update">Update</button>
-    <br />
-    <br />
-    <button @onclick="Delete">Delete</button>
+	<DrinkEditor Drink="drink" @ref="DrinkEditor" SubmitCallback="Update" SubmitText="Update" />
+	<br />
+	<br />
+	<button @onclick="Delete">Delete</button>
 }
 
 @code {
-    private Drink? drink;
+	private DrinkEditor DrinkEditor = default!;
+	private Drink? drink;
 
-    [Parameter]
-    public required string Url { get; set; }
+	[Parameter]
+	public required string Url { get; set; }
 
-    protected override async Task OnInitializedAsync()
-    {
-        drink = await Storage.GetDrink(Url);
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		drink = await Storage.GetDrink(Url);
+	}
 
-    private async Task Update()
-    {
-        if (drink is null)
-            return;
+	private async Task Update()
+	{
+		if (drink is null)
+			return;
 
-        await Storage.UpdateDrink(drink);
-        Navigator.NavigateTo($"/drink/{drink.Url}/{drink.NameNormalized}/");
-    }
+		await Storage.UpdateDrink(drink);
+		Navigator.NavigateTo($"/drink/{drink.Url}/{drink.NameNormalized}/");
+	}
 
-    private async Task Delete()
-    {
-        if (drink is null)
-            return;
+	private async Task Delete()
+	{
+		if (drink is null)
+			return;
 
-        await Storage.DeleteDrink(drink);
-        Navigator.NavigateTo($"/");
-    }
+		await Storage.DeleteDrink(drink);
+		Navigator.NavigateTo($"/");
+	}
 }

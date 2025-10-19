@@ -9,6 +9,8 @@ public enum Unit
     Centiliter,
     Milliliter,
     Gram,
+    Pieces,
+    Drops,
 }
 
 public static class UnitExtensions
@@ -19,6 +21,8 @@ public static class UnitExtensions
         Unit.Centiliter => "cL",
         Unit.Milliliter => "mL",
         Unit.Gram => "g",
+        Unit.Pieces => "pieces",
+        Unit.Drops => "drops",
         _ => throw new ArgumentException($"{nameof(Unit)} '{unit}' was not supported."),
     };
 }

@@ -20,6 +20,7 @@ public class Drink
     /// <summary>
     /// The name of the drink
     /// </summary>
+    [StringLength(100, MinimumLength = 2, ErrorMessage = "The drink name must be between 2 and 100 characters.")]
     public required string Name { get; set; }
 
     /// <summary>
@@ -51,7 +52,8 @@ public class Drink
     /// <summary>
     /// The ingredients for the drink.
     /// </summary>
-    [MinLength(1, ErrorMessage = "A drink should have at least 1 ingredient.")]
+
+    [MinLength(1, ErrorMessage = "There must be atleast 1 ingredient in a drink.")]
     public List<IngredientLine> Ingredients { get; set; } = [];
 
     public static Drink NewEmpty() => new()

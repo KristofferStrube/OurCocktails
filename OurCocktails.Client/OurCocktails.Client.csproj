@@ -13,8 +13,4 @@
     <PackageReference Include="System.Net.ServerSentEvents" Version="10.0.0-rc.2.25502.107" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\OurCocktails.Shared\OurCocktails.Shared.csproj" />
-  </ItemGroup>
-
 </Project>
