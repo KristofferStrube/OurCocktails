@@ -13,7 +13,7 @@ public static class DrinkApi
 
         group.MapGet("/{url}", GetDrink);
         group.MapPost("/", CreateDrink);
-        group.MapGet("/randomDescription", StreamRandomDrinkDescription);
+        //group.MapGet("/randomDescription", StreamRandomDrinkDescription);
 
         return builder;
     }
@@ -41,21 +41,23 @@ public static class DrinkApi
     {
         Drink randomDrink = await storage.GetRandomDrink();
 
-        async IAsyncEnumerable<string> DrinkDescription([EnumeratorCancellation] CancellationToken cancellationToken)
-        {
-            yield return randomDrink.Name;
-            foreach (string line in randomDrink.Description.Split("."))
-            {
-                await Task.Delay(1000, cancellationToken);
-                yield return line.Trim();
-            }
-            foreach (string line in randomDrink.Recipe.Split("\n"))
-            {
-                await Task.Delay(1000, cancellationToken);
-                yield return line.Trim();
-            }
-        }
-
-        return TypedResults.ServerSentEvents(DrinkDescription(cancellationToken));
+        return TypedResults.ServerSentEvents(DrinkDescription(randomDrink, cancellationToken));
     }
+
+    #region DrinkDescription
+    private static async IAsyncEnumerable<string> DrinkDescription(Drink drink, [EnumeratorCancellation] CancellationToken cancellationToken)
+    {
+        yield return drink.Name;
+        foreach (string line in drink.Description.Split("."))
+        {
+            await Task.Delay(1000, cancellationToken);
+            yield return line.Trim();
+        }
+        foreach (string line in drink.Recipe.Split("\n"))
+        {
+            await Task.Delay(1000, cancellationToken);
+            yield return line.Trim();
+        }
+    }
+    #endregion
 }

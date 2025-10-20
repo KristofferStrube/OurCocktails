@@ -7,10 +7,12 @@ public class IngredientLine
     public Guid Id { get; set; } = Guid.NewGuid();
 
     [Required]
-    public required Ingredient Ingredient { get; set; }
+    public Ingredient Ingredient { get; set; } = default!;
 
     [Range(1, double.MaxValue, ErrorMessage = "You should have atleast 1 of each ingredient in the recipe.")]
     public decimal Amount { get; set; }
+
+    [Required]
     public Unit Unit { get; set; }
 
     public static IngredientLine NewEmpty() => new()
