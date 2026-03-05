@@ -1,9 +1,7 @@
 ﻿@page "/Drink/{DrinkUrl}/{IgnoredName?}/"
 @attribute [StreamRendering]
-@implements IDisposable
 @rendermode InteractiveWebAssembly
 @inject IStorage Storage
-@inject PersistentComponentState PersistentComponentState
 
 <PageTitle>Our Cocktails - @(drink?.Name ?? IgnoredName)</PageTitle>
 
@@ -54,8 +52,8 @@
 <br />
 
 @code {
-    private Drink? drink;
-    private PersistingComponentStateSubscription persistingSubscription;
+    [PersistentState]
+    public Drink? drink { get; set; }
 
     [Parameter]
     public required string DrinkUrl { get; set; }
@@ -65,28 +63,6 @@
 
     protected override async Task OnInitializedAsync()
     {
-        persistingSubscription = PersistentComponentState.RegisterOnPersisting(PersistData);
-
-        if (PersistentComponentState.TryTakeFromJson<Drink>(
-            "drink", out var restored))
-        {
-            drink = restored!;
-        }
-        else
-        {
-            drink = await Storage.GetDrink(DrinkUrl);
-        }
-    }
-
-    private Task PersistData()
-    {
-        PersistentComponentState.PersistAsJson("drink", drink);
-
-        return Task.CompletedTask;
-    }
-
-    public void Dispose()
-    {
-        persistingSubscription.Dispose();
+        drink ??= await Storage.GetDrink(DrinkUrl);
     }
 }
